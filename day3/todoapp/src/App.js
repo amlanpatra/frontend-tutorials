@@ -3,7 +3,8 @@ import Task from "./Task";
 import { useState } from "react";
 
 function App() {
-  const [taskItem, setTaskItem] = useState("hello");
+  const [taskItem, setTaskItem] = useState("");
+  const [allTasks, setAllTasks] = useState([]);
 
   return (
     <div className="App flex-row border-white border-[10px] w-screen">
@@ -17,13 +18,18 @@ function App() {
 
       <button
         className="h-fit w-fit bg-black text-white p-2 rounded-md mb-2"
-        onClick={() => alert(taskItem)}
+        onClick={() =>
+          setAllTasks(
+            allTasks.concat(<Task key={taskItem} taskDetails={taskItem} />)
+          )
+        }
       >
         ADD
       </button>
-      <Task taskDetails={"Task 1"} />
-      <Task taskDetails={"Task 2"} />
-      <Task taskDetails={"Task 4"} />
+
+      <div>
+        {allTasks.length == 0 ? "Empty" : allTasks[allTasks.length - 1].key}
+      </div>
     </div>
   );
 }
