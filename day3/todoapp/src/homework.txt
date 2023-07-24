@@ -1,0 +1,5 @@
+1. Clear input field after a task is added
+2. Make the edited value go to top
+3. Stop duplicate entries
+
+

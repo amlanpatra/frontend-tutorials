@@ -6,6 +6,38 @@ function App() {
   const [taskItem, setTaskItem] = useState("");
   const [allTasks, setAllTasks] = useState([]);
 
+  const deleteHandler = (element) => {
+    var newList = allTasks.filter((task) => task != element);
+    setAllTasks(newList);
+  };
+
+  const editHandler = (element) => {
+    // take new value
+    // cancel -> do nothing
+    var newTaskName = prompt(`Update task : ${element}`);
+    if (newTaskName == null) return;
+    console.log(newTaskName);
+    // task2 -> task4
+    var newAllTasks = allTasks.map((task) =>
+      task == element ? newTaskName : task
+    );
+    setAllTasks(newAllTasks);
+  };
+
+  // ["task1","task2","task3"]
+  // ["<div> task1 <div><button>delete</button></div></div>",
+  // "<div> task1 <div><button>delete</button></div></div>"]
+  const showAllTasks = allTasks.map((element) => {
+    return (
+      <Task
+        key={element}
+        taskDetails={element}
+        onDelete={() => deleteHandler(element)}
+        onEdit={() => editHandler(element)}
+      />
+    );
+  });
+
   return (
     <div className="App flex-row border-white border-[10px] w-screen">
       <input
@@ -18,18 +50,12 @@ function App() {
 
       <button
         className="h-fit w-fit bg-black text-white p-2 rounded-md mb-2"
-        onClick={() =>
-          setAllTasks(
-            allTasks.concat(<Task key={taskItem} taskDetails={taskItem} />)
-          )
-        }
+        onClick={() => setAllTasks(allTasks.concat(taskItem))}
       >
         ADD
       </button>
 
-      <div>
-        {allTasks.length == 0 ? "Empty" : allTasks[allTasks.length - 1].key}
-      </div>
+      <div>{showAllTasks}</div>
     </div>
   );
 }
